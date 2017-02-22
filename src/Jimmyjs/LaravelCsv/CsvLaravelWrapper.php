@@ -24,7 +24,7 @@ class CsvLaravelWrapper
 	    $csv = Reader::createFromPath($filePath)
 	    			 ->setDelimiter($this->delimiter);
 
-	    if (mb_detect_encoding($csv, 'UTF-8', true) === false) {
+	    if (mb_detect_encoding($csv, "UTF-8, ISO-8859-1") == "ISO-8859-1") {
 	    	$csv->appendStreamFilter('convert.iconv.Windows-1252/UTF-8');
 	    }
 
