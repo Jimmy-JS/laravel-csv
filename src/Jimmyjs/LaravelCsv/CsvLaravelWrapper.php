@@ -22,8 +22,11 @@ class CsvLaravelWrapper
 	public function load($filePath)
 	{
 	    $csv = Reader::createFromPath($filePath)
-	    			 ->setDelimiter($this->delimiter)
-	    			 ->appendStreamFilter('convert.iconv.Windows-1252/UTF-8');
+	    			 ->setDelimiter($this->delimiter);
+
+	    if (mb_detect_encoding($csv, 'UTF-8', true) === false) {
+	    	$csv->appendStreamFilter('convert.iconv.Windows-1252/UTF-8');
+	    }
 
 	    if ($this->forceConvertUTF16) {
 	        $inputBom = $csv->getInputBOM();
